@@ -7,6 +7,10 @@ import (
 	"strings"
 )
 
+var (
+	EnableLog bool = false
+)
+
 type tdCommon struct {
 	Type  string `json:"@type"`
 	Extra string `json:"@extra"`

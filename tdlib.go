@@ -184,7 +184,9 @@ func (client *Client) Send(jsonQuery interface{}) {
 
 	defer C.free(unsafe.Pointer(query))
 	C.td_json_client_send(client.Client, query)
-	mylog.Debug("send message:", C.GoString(query))
+	if EnableLog {
+		mylog.Debug("send message:", C.GoString(query))
+	}
 }
 
 // Receive Receives incoming updates and request responses from the TDLib client.
@@ -193,7 +195,7 @@ func (client *Client) Receive(timeout float64) []byte {
 	result := C.td_json_client_receive(client.Client, C.double(timeout))
 
 	ret := []byte(C.GoString(result))
-	if ret != nil && len(ret) > 0 {
+	if ret != nil && len(ret) > 0 && EnableLog {
 		mylog.Debug("received message :", string(ret))
 	}
 
@@ -380,7 +382,6 @@ func (client *Client) SendPhoneNumber(phoneNumber string, timeout time.Duration)
 	_, err := client.SetAuthenticationPhoneNumber(phoneNumber, &phoneNumberConfig, timeout)
 
 	if err != nil {
-		mylog.Debug("SendPhoneNumber err:", err)
 		return nil, err
 	}
 
