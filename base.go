@@ -1,4 +1,4 @@
-package mytdlib
+package mytglib
 
 import (
 	"encoding/json"

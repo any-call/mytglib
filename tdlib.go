@@ -1,4 +1,4 @@
-package mytdlib
+package mytglib
 
 //#cgo linux CFLAGS: -I/usr/local/include
 //#cgo darwin CFLAGS: -I/usr/local/include
