@@ -6393,7 +6393,7 @@ func (messageSendingStateFailed *MessageSendingStateFailed) GetMessageSendingSta
 type Message struct {
 	tdCommon
 	ID                      int64                   `json:"id"`                           // Message identifier; unique for the chat to which the message belongs
-	Sender                  MessageSender           `json:"sender_id"`                    // The sender of the message //modify on 3/27
+	Sender                  MessageSender           `json:"sender"`                       // The sender of the message
 	ChatID                  int64                   `json:"chat_id"`                      // Chat identifier
 	SendingState            MessageSendingState     `json:"sending_state"`                // Information about the sending state of the message; may be null
 	SchedulingState         MessageSchedulingState  `json:"scheduling_state"`             // Information about the scheduling state of the message; may be null
