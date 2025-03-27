@@ -214,7 +214,7 @@ func (client *Client) CheckAuthenticationCode(code string) (*Ok, error) {
 
 // RequestQrCodeAuthentication Requests QR code authentication by scanning a QR code on another logged in device. Works only when the current authorization state is authorizationStateWaitPhoneNumber,
 // @param otherUserIDs List of user identifiers of other users currently using the application
-func (client *Client) RequestQrCodeAuthentication(otherUserIDs []int32) (*Ok, error) {
+func (client *Client) RequestQrCodeAuthentication(otherUserIDs []int64) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":          "requestQrCodeAuthentication",
 		"other_user_ids": otherUserIDs,
@@ -714,7 +714,7 @@ func (client *Client) GetMe() (*User, error) {
 
 // GetUser Returns information about a user by their identifier. This is an offline request if the current user is not a bot
 // @param userID User identifier
-func (client *Client) GetUser(userID int32) (*User, error) {
+func (client *Client) GetUser(userID int64) (*User, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":   "getUser",
 		"user_id": userID,
@@ -736,7 +736,7 @@ func (client *Client) GetUser(userID int32) (*User, error) {
 
 // GetUserFullInfo Returns full information about a user by their identifier
 // @param userID User identifier
-func (client *Client) GetUserFullInfo(userID int32) (*UserFullInfo, error) {
+func (client *Client) GetUserFullInfo(userID int64) (*UserFullInfo, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":   "getUserFullInfo",
 		"user_id": userID,
@@ -758,7 +758,7 @@ func (client *Client) GetUserFullInfo(userID int32) (*UserFullInfo, error) {
 
 // GetBasicGroup Returns information about a basic group by its identifier. This is an offline request if the current user is not a bot
 // @param basicGroupID Basic group identifier
-func (client *Client) GetBasicGroup(basicGroupID int32) (*BasicGroup, error) {
+func (client *Client) GetBasicGroup(basicGroupID int64) (*BasicGroup, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":          "getBasicGroup",
 		"basic_group_id": basicGroupID,
@@ -780,7 +780,7 @@ func (client *Client) GetBasicGroup(basicGroupID int32) (*BasicGroup, error) {
 
 // GetBasicGroupFullInfo Returns full information about a basic group by its identifier
 // @param basicGroupID Basic group identifier
-func (client *Client) GetBasicGroupFullInfo(basicGroupID int32) (*BasicGroupFullInfo, error) {
+func (client *Client) GetBasicGroupFullInfo(basicGroupID int64) (*BasicGroupFullInfo, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":          "getBasicGroupFullInfo",
 		"basic_group_id": basicGroupID,
@@ -802,7 +802,7 @@ func (client *Client) GetBasicGroupFullInfo(basicGroupID int32) (*BasicGroupFull
 
 // GetSupergroup Returns information about a supergroup or a channel by its identifier. This is an offline request if the current user is not a bot
 // @param supergroupID Supergroup or channel identifier
-func (client *Client) GetSupergroup(supergroupID int32) (*Supergroup, error) {
+func (client *Client) GetSupergroup(supergroupID int64) (*Supergroup, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":         "getSupergroup",
 		"supergroup_id": supergroupID,
@@ -824,7 +824,7 @@ func (client *Client) GetSupergroup(supergroupID int32) (*Supergroup, error) {
 
 // GetSupergroupFullInfo Returns full information about a supergroup or a channel by its identifier, cached for up to 1 minute
 // @param supergroupID Supergroup or channel identifier
-func (client *Client) GetSupergroupFullInfo(supergroupID int32) (*SupergroupFullInfo, error) {
+func (client *Client) GetSupergroupFullInfo(supergroupID int64) (*SupergroupFullInfo, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":         "getSupergroupFullInfo",
 		"supergroup_id": supergroupID,
@@ -846,7 +846,7 @@ func (client *Client) GetSupergroupFullInfo(supergroupID int32) (*SupergroupFull
 
 // GetSecretChat Returns information about a secret chat by its identifier. This is an offline request
 // @param secretChatID Secret chat identifier
-func (client *Client) GetSecretChat(secretChatID int32) (*SecretChat, error) {
+func (client *Client) GetSecretChat(secretChatID int64) (*SecretChat, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":          "getSecretChat",
 		"secret_chat_id": secretChatID,
@@ -1494,7 +1494,7 @@ func (client *Client) GetInactiveSupergroupChats() (*Chats, error) {
 // @param userID User identifier
 // @param offsetChatID Chat identifier starting from which to return chats; use 0 for the first request
 // @param limit The maximum number of chats to be returned; up to 100
-func (client *Client) GetGroupsInCommon(userID int32, offsetChatID int64, limit int32) (*Chats, error) {
+func (client *Client) GetGroupsInCommon(userID int64, offsetChatID int64, limit int32) (*Chats, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":          "getGroupsInCommon",
 		"user_id":        userID,
@@ -1923,7 +1923,7 @@ func (client *Client) GetMessagePublicForwards(chatID int64, messageID int64, of
 // RemoveNotification Removes an active notification from notification list. Needs to be called only if the notification is removed by the current user
 // @param notificationGroupID Identifier of notification group to which the notification belongs
 // @param notificationID Identifier of removed notification
-func (client *Client) RemoveNotification(notificationGroupID int32, notificationID int32) (*Ok, error) {
+func (client *Client) RemoveNotification(notificationGroupID int64, notificationID int32) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":                 "removeNotification",
 		"notification_group_id": notificationGroupID,
@@ -1947,7 +1947,7 @@ func (client *Client) RemoveNotification(notificationGroupID int32, notification
 // RemoveNotificationGroup Removes a group of active notifications. Needs to be called only if the notification group is removed by the current user
 // @param notificationGroupID Notification group identifier
 // @param maxNotificationID The maximum identifier of removed notifications
-func (client *Client) RemoveNotificationGroup(notificationGroupID int32, maxNotificationID int32) (*Ok, error) {
+func (client *Client) RemoveNotificationGroup(notificationGroupID int64, maxNotificationID int32) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":                 "removeNotificationGroup",
 		"notification_group_id": notificationGroupID,
@@ -2109,7 +2109,7 @@ func (client *Client) SendMessageAlbum(chatID int64, messageThreadID int64, repl
 // @param botUserID Identifier of the bot
 // @param chatID Identifier of the target chat
 // @param parameter A hidden parameter sent to the bot for deep linking purposes (https://core.telegram.org/bots#deep-linking)
-func (client *Client) SendBotStartMessage(botUserID int32, chatID int64, parameter string) (*Message, error) {
+func (client *Client) SendBotStartMessage(botUserID int64, chatID int64, parameter string) (*Message, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":       "sendBotStartMessage",
 		"bot_user_id": botUserID,
@@ -2326,7 +2326,7 @@ func (client *Client) DeleteMessages(chatID int64, messageIDs []int64, revoke bo
 // DeleteChatMessagesFromUser Deletes all messages sent by the specified user to a chat. Supported only for supergroups; requires can_delete_messages administrator privileges
 // @param chatID Chat identifier
 // @param userID User identifier
-func (client *Client) DeleteChatMessagesFromUser(chatID int64, userID int32) (*Ok, error) {
+func (client *Client) DeleteChatMessagesFromUser(chatID int64, userID int64) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":   "deleteChatMessagesFromUser",
 		"chat_id": chatID,
