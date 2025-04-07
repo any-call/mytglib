@@ -63,3 +63,30 @@ func (self api) GetChatList(client *Client, limit int) ([]*Chat, error) {
 
 	return allChats, nil
 }
+
+func (self api) SendMessage(client *Client, chatId, replyToMessage int64, message string) (*Message, error) {
+	if client == nil {
+		return nil, fmt.Errorf("invalid client")
+	}
+
+	return client.SendMessage(chatId, 0, replyToMessage, nil, nil,
+		NewInputMessageText(NewFormattedText(message, nil), true, true))
+}
+
+func (self api) SendDice(client *Client, chatId, replyToMessage int64) (*Message, error) {
+	if client == nil {
+		return nil, fmt.Errorf("invalid client")
+	}
+
+	return client.SendMessage(chatId, 0, replyToMessage, nil, nil,
+		NewInputMessageDice("🎲", true))
+}
+
+func (self api) DelMessage(client *Client, chatID, messageID int64) error {
+	if client == nil {
+		return fmt.Errorf("invalid client")
+	}
+
+	_, err := client.DeleteMessages(chatID, []int64{messageID}, true)
+	return err
+}
