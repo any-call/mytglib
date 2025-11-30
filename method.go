@@ -3097,7 +3097,7 @@ func (client *Client) GetLoginURL(chatID int64, messageID int64, buttonID int32,
 // @param userLocation Location of the user, only if needed
 // @param query Text of the query
 // @param offset Offset of the first entry to return
-func (client *Client) GetInlineQueryResults(botUserID int32, chatID int64, userLocation *Location, query string, offset string) (*InlineQueryResults, error) {
+func (client *Client) GetInlineQueryResults(botUserID int64, chatID int64, userLocation *Location, query string, offset string) (*InlineQueryResults, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":         "getInlineQueryResults",
 		"bot_user_id":   botUserID,
@@ -3268,7 +3268,7 @@ func (client *Client) AnswerPreCheckoutQuery(preCheckoutQueryID JSONInt64, error
 // @param userID User identifier
 // @param score The new score
 // @param force Pass true to update the score even if it decreases. If the score is 0, the user will be deleted from the high score table
-func (client *Client) SetGameScore(chatID int64, messageID int64, editMessage bool, userID int32, score int32, force bool) (*Message, error) {
+func (client *Client) SetGameScore(chatID int64, messageID int64, editMessage bool, userID int64, score int32, force bool) (*Message, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":        "setGameScore",
 		"chat_id":      chatID,
@@ -3299,7 +3299,7 @@ func (client *Client) SetGameScore(chatID int64, messageID int64, editMessage bo
 // @param userID User identifier
 // @param score The new score
 // @param force Pass true to update the score even if it decreases. If the score is 0, the user will be deleted from the high score table
-func (client *Client) SetInlineGameScore(inlineMessageID string, editMessage bool, userID int32, score int32, force bool) (*Ok, error) {
+func (client *Client) SetInlineGameScore(inlineMessageID string, editMessage bool, userID int64, score int32, force bool) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":             "setInlineGameScore",
 		"inline_message_id": inlineMessageID,
@@ -3327,7 +3327,7 @@ func (client *Client) SetInlineGameScore(inlineMessageID string, editMessage boo
 // @param chatID The chat that contains the message with the game
 // @param messageID Identifier of the message
 // @param userID User identifier
-func (client *Client) GetGameHighScores(chatID int64, messageID int64, userID int32) (*GameHighScores, error) {
+func (client *Client) GetGameHighScores(chatID int64, messageID int64, userID int64) (*GameHighScores, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":      "getGameHighScores",
 		"chat_id":    chatID,
@@ -3352,7 +3352,7 @@ func (client *Client) GetGameHighScores(chatID int64, messageID int64, userID in
 // GetInlineGameHighScores Returns game high scores and some part of the high score table in the range of the specified user; for bots only
 // @param inlineMessageID Inline message identifier
 // @param userID User identifier
-func (client *Client) GetInlineGameHighScores(inlineMessageID string, userID int32) (*GameHighScores, error) {
+func (client *Client) GetInlineGameHighScores(inlineMessageID string, userID int64) (*GameHighScores, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":             "getInlineGameHighScores",
 		"inline_message_id": inlineMessageID,
@@ -3544,7 +3544,7 @@ func (client *Client) ReadAllChatMentions(chatID int64) (*Ok, error) {
 // CreatePrivateChat Returns an existing chat corresponding to a given user
 // @param userID User identifier
 // @param force If true, the chat will be created without network request. In this case all information about the chat except its type, title and photo can be incorrect
-func (client *Client) CreatePrivateChat(userID int32, force bool) (*Chat, error) {
+func (client *Client) CreatePrivateChat(userID int64, force bool) (*Chat, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":   "createPrivateChat",
 		"user_id": userID,
@@ -3638,7 +3638,7 @@ func (client *Client) CreateSecretChat(secretChatID int32) (*Chat, error) {
 // CreateNewBasicGroupChat Creates a new basic group and sends a corresponding messageBasicGroupChatCreate. Returns the newly created chat
 // @param userIDs Identifiers of users to be added to the basic group
 // @param title Title of the new basic group; 1-128 characters
-func (client *Client) CreateNewBasicGroupChat(userIDs []int32, title string) (*Chat, error) {
+func (client *Client) CreateNewBasicGroupChat(userIDs []int64, title string) (*Chat, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":    "createNewBasicGroupChat",
 		"user_ids": userIDs,
@@ -3691,7 +3691,7 @@ func (client *Client) CreateNewSupergroupChat(title string, isChannel bool, desc
 
 // CreateNewSecretChat Creates a new secret chat. Returns the newly created chat
 // @param userID Identifier of the target user
-func (client *Client) CreateNewSecretChat(userID int32) (*Chat, error) {
+func (client *Client) CreateNewSecretChat(userID int64) (*Chat, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":   "createNewSecretChat",
 		"user_id": userID,
@@ -4345,7 +4345,7 @@ func (client *Client) LeaveChat(chatID int64) (*Ok, error) {
 // @param chatID Chat identifier
 // @param userID Identifier of the user
 // @param forwardLimit The number of earlier messages from the chat to be forwarded to the new member; up to 100. Ignored for supergroups and channels
-func (client *Client) AddChatMember(chatID int64, userID int32, forwardLimit int32) (*Ok, error) {
+func (client *Client) AddChatMember(chatID int64, userID int64, forwardLimit int32) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":         "addChatMember",
 		"chat_id":       chatID,
@@ -4370,7 +4370,7 @@ func (client *Client) AddChatMember(chatID int64, userID int32, forwardLimit int
 // AddChatMembers Adds multiple new members to a chat. Currently this method is only available for supergroups and channels. This method can't be used to join a chat. Members can't be added to a channel if it has more than 200 members
 // @param chatID Chat identifier
 // @param userIDs Identifiers of the users to be added to the chat. The maximum number of added users is 20 for supergroups and 100 for channels
-func (client *Client) AddChatMembers(chatID int64, userIDs []int32) (*Ok, error) {
+func (client *Client) AddChatMembers(chatID int64, userIDs []int64) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":    "addChatMembers",
 		"chat_id":  chatID,
@@ -4395,7 +4395,7 @@ func (client *Client) AddChatMembers(chatID int64, userIDs []int32) (*Ok, error)
 // @param chatID Chat identifier
 // @param userID User identifier
 // @param status The new status of the member in the chat
-func (client *Client) SetChatMemberStatus(chatID int64, userID int32, status ChatMemberStatus) (*Ok, error) {
+func (client *Client) SetChatMemberStatus(chatID int64, userID int64, status ChatMemberStatus) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":   "setChatMemberStatus",
 		"chat_id": chatID,
@@ -4422,7 +4422,7 @@ func (client *Client) SetChatMemberStatus(chatID int64, userID int32, status Cha
 // @param userID Identifier of the user
 // @param bannedUntilDate Point in time (Unix timestamp) when the user will be unbanned; 0 if never. If the user is banned for more than 366 days or for less than 30 seconds from the current time, the user is considered to be banned forever. Ignored in basic groups
 // @param revokeMessages Pass true to delete all messages in the chat for the user. Always true for supergroups and channels
-func (client *Client) BanChatMember(chatID int64, userID int32, bannedUntilDate int32, revokeMessages bool) (*Ok, error) {
+func (client *Client) BanChatMember(chatID int64, userID int64, bannedUntilDate int32, revokeMessages bool) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":             "banChatMember",
 		"chat_id":           chatID,
@@ -4490,7 +4490,7 @@ func (client *Client) CanTransferOwnership() (CanTransferOwnershipResult, error)
 // @param chatID Chat identifier
 // @param userID Identifier of the user to which transfer the ownership. The ownership can't be transferred to a bot or to a deleted user
 // @param password The password of the current user
-func (client *Client) TransferChatOwnership(chatID int64, userID int32, password string) (*Ok, error) {
+func (client *Client) TransferChatOwnership(chatID int64, userID int64, password string) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":    "transferChatOwnership",
 		"chat_id":  chatID,
@@ -4515,7 +4515,7 @@ func (client *Client) TransferChatOwnership(chatID int64, userID int32, password
 // GetChatMember Returns information about a single member of a chat
 // @param chatID Chat identifier
 // @param userID User identifier
-func (client *Client) GetChatMember(chatID int64, userID int32) (*ChatMember, error) {
+func (client *Client) GetChatMember(chatID int64, userID int64) (*ChatMember, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":   "getChatMember",
 		"chat_id": chatID,
@@ -5132,7 +5132,7 @@ func (client *Client) JoinChatByInviteLink(inviteLink string) (*Chat, error) {
 // @param userID Identifier of the user to be called
 // @param protocol Description of the call protocols supported by the application
 // @param isVideo True, if a video call needs to be created
-func (client *Client) CreateCall(userID int32, protocol *CallProtocol, isVideo bool) (*CallID, error) {
+func (client *Client) CreateCall(userID int64, protocol *CallProtocol, isVideo bool) (*CallID, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":    "createCall",
 		"user_id":  userID,
@@ -5383,7 +5383,7 @@ func (client *Client) ToggleGroupCallMuteNewParticipants(groupCallID int32, mute
 // InviteGroupCallParticipants Invites users to a group call. Sends a service message of type messageInviteToGroupCall for voice chats
 // @param groupCallID Group call identifier
 // @param userIDs User identifiers. At most 10 users can be invited simultaneously
-func (client *Client) InviteGroupCallParticipants(groupCallID int32, userIDs []int32) (*Ok, error) {
+func (client *Client) InviteGroupCallParticipants(groupCallID int64, userIDs []int64) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":         "inviteGroupCallParticipants",
 		"group_call_id": groupCallID,
@@ -5434,7 +5434,7 @@ func (client *Client) SetGroupCallParticipantIsSpeaking(groupCallID int32, sourc
 // @param groupCallID Group call identifier
 // @param userID User identifier
 // @param isMuted Pass true if the user must be muted and false otherwise
-func (client *Client) ToggleGroupCallParticipantIsMuted(groupCallID int32, userID int32, isMuted bool) (*Ok, error) {
+func (client *Client) ToggleGroupCallParticipantIsMuted(groupCallID int64, userID int64, isMuted bool) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":         "toggleGroupCallParticipantIsMuted",
 		"group_call_id": groupCallID,
@@ -5460,7 +5460,7 @@ func (client *Client) ToggleGroupCallParticipantIsMuted(groupCallID int32, userI
 // @param groupCallID Group call identifier
 // @param userID User identifier
 // @param volumeLevel New participant's volume level; 1-20000 in hundreds of percents
-func (client *Client) SetGroupCallParticipantVolumeLevel(groupCallID int32, userID int32, volumeLevel int32) (*Ok, error) {
+func (client *Client) SetGroupCallParticipantVolumeLevel(groupCallID int64, userID int64, volumeLevel int32) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":         "setGroupCallParticipantVolumeLevel",
 		"group_call_id": groupCallID,
@@ -5718,7 +5718,7 @@ func (client *Client) SearchContacts(query string, limit int32) (*Users, error) 
 
 // RemoveContacts Removes users from the contact list
 // @param userIDs Identifiers of users to be deleted
-func (client *Client) RemoveContacts(userIDs []int32) (*Ok, error) {
+func (client *Client) RemoveContacts(userIDs []int64) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":    "removeContacts",
 		"user_ids": userIDs,
@@ -5802,7 +5802,7 @@ func (client *Client) ClearImportedContacts() (*Ok, error) {
 
 // SharePhoneNumber Shares the phone number of the current user with a mutual contact. Supposed to be called when the user clicks on chatActionBarSharePhoneNumber
 // @param userID Identifier of the user with whom to share the phone number. The user must be a mutual contact
-func (client *Client) SharePhoneNumber(userID int32) (*Ok, error) {
+func (client *Client) SharePhoneNumber(userID int64) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":   "sharePhoneNumber",
 		"user_id": userID,
@@ -5826,7 +5826,7 @@ func (client *Client) SharePhoneNumber(userID int32) (*Ok, error) {
 // @param userID User identifier
 // @param offset The number of photos to skip; must be non-negative
 // @param limit The maximum number of photos to be returned; up to 100
-func (client *Client) GetUserProfilePhotos(userID int32, offset int32, limit int32) (*ChatPhotos, error) {
+func (client *Client) GetUserProfilePhotos(userID int64, offset int32, limit int32) (*ChatPhotos, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":   "getUserProfilePhotos",
 		"user_id": userID,
@@ -7002,7 +7002,7 @@ func (client *Client) ToggleSupergroupIsAllHistoryAvailable(supergroupID int32, 
 // @param supergroupID Supergroup identifier
 // @param userID User identifier
 // @param messageIDs Identifiers of messages sent in the supergroup by the user. This list must be non-empty
-func (client *Client) ReportSupergroupSpam(supergroupID int32, userID int32, messageIDs []int64) (*Ok, error) {
+func (client *Client) ReportSupergroupSpam(supergroupID int64, userID int64, messageIDs []int64) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":         "reportSupergroupSpam",
 		"supergroup_id": supergroupID,
@@ -7635,7 +7635,7 @@ func (client *Client) DeleteLanguagePack(languagePackID string) (*Ok, error) {
 // RegisterDevice Registers the currently used device for receiving push notifications. Returns a globally unique identifier of the push notification subscription
 // @param deviceToken Device token
 // @param otherUserIDs List of user identifiers of other users currently using the application
-func (client *Client) RegisterDevice(deviceToken DeviceToken, otherUserIDs []int32) (*PushReceiverID, error) {
+func (client *Client) RegisterDevice(deviceToken DeviceToken, otherUserIDs []int64) (*PushReceiverID, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":          "registerDevice",
 		"device_token":   deviceToken,
@@ -8555,7 +8555,7 @@ func (client *Client) DeletePassportElement(typeParam PassportElementType) (*Ok,
 // SetPassportElementErrors Informs the user that some of the elements in their Telegram Passport contain errors; for bots only. The user will not be able to resend the elements, until the errors are fixed
 // @param userID User identifier
 // @param errors The errors
-func (client *Client) SetPassportElementErrors(userID int32, errors []InputPassportElementError) (*Ok, error) {
+func (client *Client) SetPassportElementErrors(userID int64, errors []InputPassportElementError) (*Ok, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":   "setPassportElementErrors",
 		"user_id": userID,
@@ -8733,7 +8733,7 @@ func (client *Client) CheckEmailAddressVerificationCode(code string) (*Ok, error
 // @param scope Telegram Passport element types requested by the service
 // @param publicKey Service's public_key
 // @param nonce Authorization form nonce provided by the service
-func (client *Client) GetPassportAuthorizationForm(botUserID int32, scope string, publicKey string, nonce string) (*PassportAuthorizationForm, error) {
+func (client *Client) GetPassportAuthorizationForm(botUserID int64, scope string, publicKey string, nonce string) (*PassportAuthorizationForm, error) {
 	result, err := client.SendAndCatch(UpdateData{
 		"@type":       "getPassportAuthorizationForm",
 		"bot_user_id": botUserID,

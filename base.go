@@ -3606,7 +3606,7 @@ type Contact struct {
 	FirstName   string `json:"first_name"`   // First name of the user; 1-255 characters in length
 	LastName    string `json:"last_name"`    // Last name of the user
 	Vcard       string `json:"vcard"`        // Additional data about the user in a form of vCard; 0-2048 bytes in length
-	UserID      int32  `json:"user_id"`      // Identifier of the user, if known; otherwise 0
+	UserID      int64  `json:"user_id"`      // Identifier of the user, if known; otherwise 0
 }
 
 // MessageType return the string telegram-type of Contact
@@ -3621,7 +3621,7 @@ func (contact *Contact) MessageType() string {
 // @param lastName Last name of the user
 // @param vcard Additional data about the user in a form of vCard; 0-2048 bytes in length
 // @param userID Identifier of the user, if known; otherwise 0
-func NewContact(phoneNumber string, firstName string, lastName string, vcard string, userID int32) *Contact {
+func NewContact(phoneNumber string, firstName string, lastName string, vcard string, userID int64) *Contact {
 	contactTemp := Contact{
 		tdCommon:    tdCommon{Type: "contact"},
 		PhoneNumber: phoneNumber,
@@ -4816,8 +4816,8 @@ func (chatMemberStatusBanned *ChatMemberStatusBanned) GetChatMemberStatusEnum() 
 // ChatMember A user with information about joining/leaving a chat
 type ChatMember struct {
 	tdCommon
-	UserID         int32            `json:"user_id"`          // User identifier of the chat member
-	InviterUserID  int32            `json:"inviter_user_id"`  // Identifier of a user that invited/promoted/banned this member in the chat; 0 if unknown
+	UserID         int64            `json:"user_id"`          // User identifier of the chat member
+	InviterUserID  int64            `json:"inviter_user_id"`  // Identifier of a user that invited/promoted/banned this member in the chat; 0 if unknown
 	JoinedChatDate int32            `json:"joined_chat_date"` // Point in time (Unix timestamp) when the user joined the chat
 	Status         ChatMemberStatus `json:"status"`           // Status of the member in the chat
 	BotInfo        *BotInfo         `json:"bot_info"`         // If the user is a bot, information about the bot; may be null. Can be null even for a bot if the bot is not the chat member
@@ -4835,7 +4835,7 @@ func (chatMember *ChatMember) MessageType() string {
 // @param joinedChatDate Point in time (Unix timestamp) when the user joined the chat
 // @param status Status of the member in the chat
 // @param botInfo If the user is a bot, information about the bot; may be null. Can be null even for a bot if the bot is not the chat member
-func NewChatMember(userID int32, inviterUserID int32, joinedChatDate int32, status ChatMemberStatus, botInfo *BotInfo) *ChatMember {
+func NewChatMember(userID int64, inviterUserID int64, joinedChatDate int32, status ChatMemberStatus, botInfo *BotInfo) *ChatMember {
 	chatMemberTemp := ChatMember{
 		tdCommon:       tdCommon{Type: "chatMember"},
 		UserID:         userID,
@@ -4857,8 +4857,8 @@ func (chatMember *ChatMember) UnmarshalJSON(b []byte) error {
 	}
 	tempObj := struct {
 		tdCommon
-		UserID         int32    `json:"user_id"`          // User identifier of the chat member
-		InviterUserID  int32    `json:"inviter_user_id"`  // Identifier of a user that invited/promoted/banned this member in the chat; 0 if unknown
+		UserID         int64    `json:"user_id"`          // User identifier of the chat member
+		InviterUserID  int64    `json:"inviter_user_id"`  // Identifier of a user that invited/promoted/banned this member in the chat; 0 if unknown
 		JoinedChatDate int32    `json:"joined_chat_date"` // Point in time (Unix timestamp) when the user joined the chat
 		BotInfo        *BotInfo `json:"bot_info"`         // If the user is a bot, information about the bot; may be null. Can be null even for a bot if the bot is not the chat member
 	}{}
