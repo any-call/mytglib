@@ -5504,11 +5504,11 @@ func (chatInviteLinkInfo *ChatInviteLinkInfo) UnmarshalJSON(b []byte) error {
 // BasicGroup Represents a basic group of 0-200 users (must be upgraded to a supergroup to accommodate more than 200 users)
 type BasicGroup struct {
 	tdCommon
-	ID                     int32            `json:"id"`                        // Group identifier
+	ID                     int64            `json:"id"`                        // Group identifier
 	MemberCount            int32            `json:"member_count"`              // Number of members in the group
 	Status                 ChatMemberStatus `json:"status"`                    // Status of the current user in the group
 	IsActive               bool             `json:"is_active"`                 // True, if the group is active
-	UpgradedToSupergroupID int32            `json:"upgraded_to_supergroup_id"` // Identifier of the supergroup to which this group was upgraded; 0 if none
+	UpgradedToSupergroupID int64            `json:"upgraded_to_supergroup_id"` // Identifier of the supergroup to which this group was upgraded; 0 if none
 }
 
 // MessageType return the string telegram-type of BasicGroup
@@ -5523,7 +5523,7 @@ func (basicGroup *BasicGroup) MessageType() string {
 // @param status Status of the current user in the group
 // @param isActive True, if the group is active
 // @param upgradedToSupergroupID Identifier of the supergroup to which this group was upgraded; 0 if none
-func NewBasicGroup(iD int32, memberCount int32, status ChatMemberStatus, isActive bool, upgradedToSupergroupID int32) *BasicGroup {
+func NewBasicGroup(iD int64, memberCount int32, status ChatMemberStatus, isActive bool, upgradedToSupergroupID int64) *BasicGroup {
 	basicGroupTemp := BasicGroup{
 		tdCommon:               tdCommon{Type: "basicGroup"},
 		ID:                     iD,
@@ -5545,10 +5545,10 @@ func (basicGroup *BasicGroup) UnmarshalJSON(b []byte) error {
 	}
 	tempObj := struct {
 		tdCommon
-		ID                     int32 `json:"id"`                        // Group identifier
+		ID                     int64 `json:"id"`                        // Group identifier
 		MemberCount            int32 `json:"member_count"`              // Number of members in the group
 		IsActive               bool  `json:"is_active"`                 // True, if the group is active
-		UpgradedToSupergroupID int32 `json:"upgraded_to_supergroup_id"` // Identifier of the supergroup to which this group was upgraded; 0 if none
+		UpgradedToSupergroupID int64 `json:"upgraded_to_supergroup_id"` // Identifier of the supergroup to which this group was upgraded; 0 if none
 	}{}
 	err = json.Unmarshal(b, &tempObj)
 	if err != nil {
@@ -5734,7 +5734,7 @@ type SupergroupFullInfo struct {
 	StickerSetID             JSONInt64       `json:"sticker_set_id"`               // Identifier of the supergroup sticker set; 0 if none
 	Location                 *ChatLocation   `json:"location"`                     // Location to which the supergroup is connected; may be null
 	InviteLink               *ChatInviteLink `json:"invite_link"`                  // Permanent invite link for this chat; may be null. For chat administrators with can_invite_users right only
-	UpgradedFromBasicGroupID int32           `json:"upgraded_from_basic_group_id"` // Identifier of the basic group from which supergroup was upgraded; 0 if none
+	UpgradedFromBasicGroupID int64           `json:"upgraded_from_basic_group_id"` // Identifier of the basic group from which supergroup was upgraded; 0 if none
 	UpgradedFromMaxMessageID int64           `json:"upgraded_from_max_message_id"` // Identifier of the last message in the basic group from which supergroup was upgraded; 0 if none
 }
 
@@ -5765,7 +5765,7 @@ func (supergroupFullInfo *SupergroupFullInfo) MessageType() string {
 // @param inviteLink Permanent invite link for this chat; may be null. For chat administrators with can_invite_users right only
 // @param upgradedFromBasicGroupID Identifier of the basic group from which supergroup was upgraded; 0 if none
 // @param upgradedFromMaxMessageID Identifier of the last message in the basic group from which supergroup was upgraded; 0 if none
-func NewSupergroupFullInfo(photo *ChatPhoto, description string, memberCount int32, administratorCount int32, restrictedCount int32, bannedCount int32, linkedChatID int64, slowModeDelay int32, slowModeDelayExpiresIn float64, canGetMembers bool, canSetUsername bool, canSetStickerSet bool, canSetLocation bool, canGetStatistics bool, isAllHistoryAvailable bool, stickerSetID JSONInt64, location *ChatLocation, inviteLink *ChatInviteLink, upgradedFromBasicGroupID int32, upgradedFromMaxMessageID int64) *SupergroupFullInfo {
+func NewSupergroupFullInfo(photo *ChatPhoto, description string, memberCount int32, administratorCount int32, restrictedCount int32, bannedCount int32, linkedChatID int64, slowModeDelay int32, slowModeDelayExpiresIn float64, canGetMembers bool, canSetUsername bool, canSetStickerSet bool, canSetLocation bool, canGetStatistics bool, isAllHistoryAvailable bool, stickerSetID JSONInt64, location *ChatLocation, inviteLink *ChatInviteLink, upgradedFromBasicGroupID int64, upgradedFromMaxMessageID int64) *SupergroupFullInfo {
 	supergroupFullInfoTemp := SupergroupFullInfo{
 		tdCommon:                 tdCommon{Type: "supergroupFullInfo"},
 		Photo:                    photo,
@@ -6889,7 +6889,7 @@ func (chatTypePrivate *ChatTypePrivate) GetChatTypeEnum() ChatTypeEnum {
 // ChatTypeBasicGroup A basic group (i.e., a chat with 0-200 other users)
 type ChatTypeBasicGroup struct {
 	tdCommon
-	BasicGroupID int32 `json:"basic_group_id"` // Basic group identifier
+	BasicGroupID int64 `json:"basic_group_id"` // Basic group identifier
 }
 
 // MessageType return the string telegram-type of ChatTypeBasicGroup
@@ -6900,7 +6900,7 @@ func (chatTypeBasicGroup *ChatTypeBasicGroup) MessageType() string {
 // NewChatTypeBasicGroup creates a new ChatTypeBasicGroup
 //
 // @param basicGroupID Basic group identifier
-func NewChatTypeBasicGroup(basicGroupID int32) *ChatTypeBasicGroup {
+func NewChatTypeBasicGroup(basicGroupID int64) *ChatTypeBasicGroup {
 	chatTypeBasicGroupTemp := ChatTypeBasicGroup{
 		tdCommon:     tdCommon{Type: "chatTypeBasicGroup"},
 		BasicGroupID: basicGroupID,
@@ -6917,7 +6917,7 @@ func (chatTypeBasicGroup *ChatTypeBasicGroup) GetChatTypeEnum() ChatTypeEnum {
 // ChatTypeSupergroup A supergroup (i.e. a chat with up to GetOption("supergroup_max_size") other users), or channel (with unlimited members)
 type ChatTypeSupergroup struct {
 	tdCommon
-	SupergroupID int32 `json:"supergroup_id"` // Supergroup or channel identifier
+	SupergroupID int64 `json:"supergroup_id"` // Supergroup or channel identifier
 	IsChannel    bool  `json:"is_channel"`    // True, if the supergroup is a channel
 }
 
@@ -6930,7 +6930,7 @@ func (chatTypeSupergroup *ChatTypeSupergroup) MessageType() string {
 //
 // @param supergroupID Supergroup or channel identifier
 // @param isChannel True, if the supergroup is a channel
-func NewChatTypeSupergroup(supergroupID int32, isChannel bool) *ChatTypeSupergroup {
+func NewChatTypeSupergroup(supergroupID int64, isChannel bool) *ChatTypeSupergroup {
 	chatTypeSupergroupTemp := ChatTypeSupergroup{
 		tdCommon:     tdCommon{Type: "chatTypeSupergroup"},
 		SupergroupID: supergroupID,
@@ -14758,7 +14758,7 @@ func (messageChatDeleteMember *MessageChatDeleteMember) GetMessageContentEnum() 
 // MessageChatUpgradeTo A basic group was upgraded to a supergroup and was deactivated as the result
 type MessageChatUpgradeTo struct {
 	tdCommon
-	SupergroupID int32 `json:"supergroup_id"` // Identifier of the supergroup to which the basic group was upgraded
+	SupergroupID int64 `json:"supergroup_id"` // Identifier of the supergroup to which the basic group was upgraded
 }
 
 // MessageType return the string telegram-type of MessageChatUpgradeTo
@@ -14769,7 +14769,7 @@ func (messageChatUpgradeTo *MessageChatUpgradeTo) MessageType() string {
 // NewMessageChatUpgradeTo creates a new MessageChatUpgradeTo
 //
 // @param supergroupID Identifier of the supergroup to which the basic group was upgraded
-func NewMessageChatUpgradeTo(supergroupID int32) *MessageChatUpgradeTo {
+func NewMessageChatUpgradeTo(supergroupID int64) *MessageChatUpgradeTo {
 	messageChatUpgradeToTemp := MessageChatUpgradeTo{
 		tdCommon:     tdCommon{Type: "messageChatUpgradeTo"},
 		SupergroupID: supergroupID,
@@ -14787,7 +14787,7 @@ func (messageChatUpgradeTo *MessageChatUpgradeTo) GetMessageContentEnum() Messag
 type MessageChatUpgradeFrom struct {
 	tdCommon
 	Title        string `json:"title"`          // Title of the newly created supergroup
-	BasicGroupID int32  `json:"basic_group_id"` // The identifier of the original basic group
+	BasicGroupID int64  `json:"basic_group_id"` // The identifier of the original basic group
 }
 
 // MessageType return the string telegram-type of MessageChatUpgradeFrom
@@ -14799,7 +14799,7 @@ func (messageChatUpgradeFrom *MessageChatUpgradeFrom) MessageType() string {
 //
 // @param title Title of the newly created supergroup
 // @param basicGroupID The identifier of the original basic group
-func NewMessageChatUpgradeFrom(title string, basicGroupID int32) *MessageChatUpgradeFrom {
+func NewMessageChatUpgradeFrom(title string, basicGroupID int64) *MessageChatUpgradeFrom {
 	messageChatUpgradeFromTemp := MessageChatUpgradeFrom{
 		tdCommon:     tdCommon{Type: "messageChatUpgradeFrom"},
 		Title:        title,
@@ -29335,7 +29335,7 @@ func (updateChatOnlineMemberCount *UpdateChatOnlineMemberCount) GetUpdateEnum() 
 // UpdateNotification A notification was changed
 type UpdateNotification struct {
 	tdCommon
-	NotificationGroupID int32         `json:"notification_group_id"` // Unique notification group identifier
+	NotificationGroupID int64         `json:"notification_group_id"` // Unique notification group identifier
 	Notification        *Notification `json:"notification"`          // Changed notification
 }
 
@@ -29348,7 +29348,7 @@ func (updateNotification *UpdateNotification) MessageType() string {
 //
 // @param notificationGroupID Unique notification group identifier
 // @param notification Changed notification
-func NewUpdateNotification(notificationGroupID int32, notification *Notification) *UpdateNotification {
+func NewUpdateNotification(notificationGroupID int64, notification *Notification) *UpdateNotification {
 	updateNotificationTemp := UpdateNotification{
 		tdCommon:            tdCommon{Type: "updateNotification"},
 		NotificationGroupID: notificationGroupID,
@@ -29366,14 +29366,14 @@ func (updateNotification *UpdateNotification) GetUpdateEnum() UpdateEnum {
 // UpdateNotificationGroup A list of active notifications in a notification group has changed
 type UpdateNotificationGroup struct {
 	tdCommon
-	NotificationGroupID        int32                 `json:"notification_group_id"`         // Unique notification group identifier
+	NotificationGroupID        int64                 `json:"notification_group_id"`         // Unique notification group identifier
 	Type                       NotificationGroupType `json:"type"`                          // New type of the notification group
 	ChatID                     int64                 `json:"chat_id"`                       // Identifier of a chat to which all notifications in the group belong
 	NotificationSettingsChatID int64                 `json:"notification_settings_chat_id"` // Chat identifier, which notification settings must be applied to the added notifications
 	IsSilent                   bool                  `json:"is_silent"`                     // True, if the notifications should be shown without sound
 	TotalCount                 int32                 `json:"total_count"`                   // Total number of unread notifications in the group, can be bigger than number of active notifications
 	AddedNotifications         []Notification        `json:"added_notifications"`           // List of added group notifications, sorted by notification ID
-	RemovedNotificationIDs     []int32               `json:"removed_notification_ids"`      // Identifiers of removed group notifications, sorted by notification ID
+	RemovedNotificationIDs     []int64               `json:"removed_notification_ids"`      // Identifiers of removed group notifications, sorted by notification ID
 }
 
 // MessageType return the string telegram-type of UpdateNotificationGroup
@@ -29391,7 +29391,7 @@ func (updateNotificationGroup *UpdateNotificationGroup) MessageType() string {
 // @param totalCount Total number of unread notifications in the group, can be bigger than number of active notifications
 // @param addedNotifications List of added group notifications, sorted by notification ID
 // @param removedNotificationIDs Identifiers of removed group notifications, sorted by notification ID
-func NewUpdateNotificationGroup(notificationGroupID int32, typeParam NotificationGroupType, chatID int64, notificationSettingsChatID int64, isSilent bool, totalCount int32, addedNotifications []Notification, removedNotificationIDs []int32) *UpdateNotificationGroup {
+func NewUpdateNotificationGroup(notificationGroupID int64, typeParam NotificationGroupType, chatID int64, notificationSettingsChatID int64, isSilent bool, totalCount int32, addedNotifications []Notification, removedNotificationIDs []int64) *UpdateNotificationGroup {
 	updateNotificationGroupTemp := UpdateNotificationGroup{
 		tdCommon:                   tdCommon{Type: "updateNotificationGroup"},
 		NotificationGroupID:        notificationGroupID,
@@ -29416,13 +29416,13 @@ func (updateNotificationGroup *UpdateNotificationGroup) UnmarshalJSON(b []byte) 
 	}
 	tempObj := struct {
 		tdCommon
-		NotificationGroupID        int32          `json:"notification_group_id"`         // Unique notification group identifier
+		NotificationGroupID        int64          `json:"notification_group_id"`         // Unique notification group identifier
 		ChatID                     int64          `json:"chat_id"`                       // Identifier of a chat to which all notifications in the group belong
 		NotificationSettingsChatID int64          `json:"notification_settings_chat_id"` // Chat identifier, which notification settings must be applied to the added notifications
 		IsSilent                   bool           `json:"is_silent"`                     // True, if the notifications should be shown without sound
 		TotalCount                 int32          `json:"total_count"`                   // Total number of unread notifications in the group, can be bigger than number of active notifications
 		AddedNotifications         []Notification `json:"added_notifications"`           // List of added group notifications, sorted by notification ID
-		RemovedNotificationIDs     []int32        `json:"removed_notification_ids"`      // Identifiers of removed group notifications, sorted by notification ID
+		RemovedNotificationIDs     []int64        `json:"removed_notification_ids"`      // Identifiers of removed group notifications, sorted by notification ID
 	}{}
 	err = json.Unmarshal(b, &tempObj)
 	if err != nil {
@@ -29815,7 +29815,7 @@ func (updateUserFullInfo *UpdateUserFullInfo) GetUpdateEnum() UpdateEnum {
 // UpdateBasicGroupFullInfo Some data from basicGroupFullInfo has been changed
 type UpdateBasicGroupFullInfo struct {
 	tdCommon
-	BasicGroupID       int32               `json:"basic_group_id"`        // Identifier of a basic group
+	BasicGroupID       int64               `json:"basic_group_id"`        // Identifier of a basic group
 	BasicGroupFullInfo *BasicGroupFullInfo `json:"basic_group_full_info"` // New full information about the group
 }
 
@@ -29828,7 +29828,7 @@ func (updateBasicGroupFullInfo *UpdateBasicGroupFullInfo) MessageType() string {
 //
 // @param basicGroupID Identifier of a basic group
 // @param basicGroupFullInfo New full information about the group
-func NewUpdateBasicGroupFullInfo(basicGroupID int32, basicGroupFullInfo *BasicGroupFullInfo) *UpdateBasicGroupFullInfo {
+func NewUpdateBasicGroupFullInfo(basicGroupID int64, basicGroupFullInfo *BasicGroupFullInfo) *UpdateBasicGroupFullInfo {
 	updateBasicGroupFullInfoTemp := UpdateBasicGroupFullInfo{
 		tdCommon:           tdCommon{Type: "updateBasicGroupFullInfo"},
 		BasicGroupID:       basicGroupID,
@@ -29846,7 +29846,7 @@ func (updateBasicGroupFullInfo *UpdateBasicGroupFullInfo) GetUpdateEnum() Update
 // UpdateSupergroupFullInfo Some data from supergroupFullInfo has been changed
 type UpdateSupergroupFullInfo struct {
 	tdCommon
-	SupergroupID       int32               `json:"supergroup_id"`        // Identifier of the supergroup or channel
+	SupergroupID       int64               `json:"supergroup_id"`        // Identifier of the supergroup or channel
 	SupergroupFullInfo *SupergroupFullInfo `json:"supergroup_full_info"` // New full information about the supergroup
 }
 
@@ -29859,7 +29859,7 @@ func (updateSupergroupFullInfo *UpdateSupergroupFullInfo) MessageType() string {
 //
 // @param supergroupID Identifier of the supergroup or channel
 // @param supergroupFullInfo New full information about the supergroup
-func NewUpdateSupergroupFullInfo(supergroupID int32, supergroupFullInfo *SupergroupFullInfo) *UpdateSupergroupFullInfo {
+func NewUpdateSupergroupFullInfo(supergroupID int64, supergroupFullInfo *SupergroupFullInfo) *UpdateSupergroupFullInfo {
 	updateSupergroupFullInfoTemp := UpdateSupergroupFullInfo{
 		tdCommon:           tdCommon{Type: "updateSupergroupFullInfo"},
 		SupergroupID:       supergroupID,
