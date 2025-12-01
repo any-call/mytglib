@@ -4439,16 +4439,16 @@ func (user *User) UnmarshalJSON(b []byte) error {
 // UserFullInfo Contains full information about a user
 type UserFullInfo struct {
 	tdCommon
-	Photo                           *ChatPhoto `json:"photo"`                               // User profile photo; may be null
-	IsBlocked                       bool       `json:"is_blocked"`                          // True, if the user is blocked by the current user
-	CanBeCalled                     bool       `json:"can_be_called"`                       // True, if the user can be called
-	SupportsVideoCalls              bool       `json:"supports_video_calls"`                // True, if a video call can be created with the user
-	HasPrivateCalls                 bool       `json:"has_private_calls"`                   // True, if the user can't be called due to their privacy settings
-	NeedPhoneNumberPrivacyException bool       `json:"need_phone_number_privacy_exception"` // True, if the current user needs to explicitly allow to share their phone number with the user when the method addContact is used
-	Bio                             string     `json:"bio"`                                 // A short user bio
-	ShareText                       string     `json:"share_text"`                          // For bots, the text that is included with the link when users share the bot
-	GroupInCommonCount              int32      `json:"group_in_common_count"`               // Number of group chats where both the other user and the current user are a member; 0 for the current user
-	BotInfo                         *BotInfo   `json:"bot_info"`                            // If the user is a bot, information about the bot; may be null
+	Photo                           *ChatPhoto    `json:"photo"`                               // User profile photo; may be null
+	IsBlocked                       bool          `json:"is_blocked"`                          // True, if the user is blocked by the current user
+	CanBeCalled                     bool          `json:"can_be_called"`                       // True, if the user can be called
+	SupportsVideoCalls              bool          `json:"supports_video_calls"`                // True, if a video call can be created with the user
+	HasPrivateCalls                 bool          `json:"has_private_calls"`                   // True, if the user can't be called due to their privacy settings
+	NeedPhoneNumberPrivacyException bool          `json:"need_phone_number_privacy_exception"` // True, if the current user needs to explicitly allow to share their phone number with the user when the method addContact is used
+	Bio                             FormattedText `json:"bio"`                                 // A short user bio
+	ShareText                       string        `json:"share_text"`                          // For bots, the text that is included with the link when users share the bot
+	GroupInCommonCount              int32         `json:"group_in_common_count"`               // Number of group chats where both the other user and the current user are a member; 0 for the current user
+	BotInfo                         *BotInfo      `json:"bot_info"`                            // If the user is a bot, information about the bot; may be null
 }
 
 // MessageType return the string telegram-type of UserFullInfo
@@ -4477,7 +4477,7 @@ func NewUserFullInfo(photo *ChatPhoto, isBlocked bool, canBeCalled bool, support
 		SupportsVideoCalls:              supportsVideoCalls,
 		HasPrivateCalls:                 hasPrivateCalls,
 		NeedPhoneNumberPrivacyException: needPhoneNumberPrivacyException,
-		Bio:                             bio,
+		Bio:                             FormattedText{Text: bio},
 		ShareText:                       shareText,
 		GroupInCommonCount:              groupInCommonCount,
 		BotInfo:                         botInfo,
